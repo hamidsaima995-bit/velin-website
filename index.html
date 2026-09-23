@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<!-- Ye batata hai ke ye ek HTML5 page hai -->
+<html lang="en">
+
+<head>
+  <!-- HEAD me page ki settings hoti hain, ye screen pe nazar nahi aata -->
+
+  <meta charset="UTF-8">  <!-- letters/symbols theek dikhein iske liye -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- mobile pe sahi fit ho -->
+  <title> Modern Clothing</title>  <!-- browser tab me dikhne wala naam -->
+
+  <!-- ===== STYLE (CSS) — poori website ka look yahan set hota hai ===== -->
+  <style>
+
+    /* :root = ek jagah jahan color save karte hain, phir neeche var() se use karte hain.
+       -- do dash isliye ke ye variable (custom naam) hai. */
+    :root {
+      --bg: #faf9f7;      /* page ka background color */
+      --ink: #141414;     /* main text (kaala) color */
+      --muted: #71146fee;   /* halka grey text color */
+      --line: #f5f4f2;    /* borders/lines ka color */
+    }
+
+    /* * ka matlab: har cheez pe ye lagao (reset) */
+    * {
+      margin: 0;              /* bahar ka gap zero */
+      padding: 0;             /* andar ka gap zero */
+      box-sizing: border-box; /* size sahi tarah nape */
+    }
+
+    /* body = poora page. Font aur base colors yahan */
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;  /* text ka font */
+      background: var(--bg);   /* upar wala --bg color */
+      color: var(--ink);       /* upar wala --ink color */
+    }
+
+    /* HEADER = upar wali kaali patti (logo + menu) */
+    header {
+      position: sticky;                /* scroll karo to upar chipki rehti hai */
+      top: 0;
+      display: flex;                   /* cheezein aik line me */
+      justify-content: space-between;  /* logo left, menu right */
+      align-items: center;             /* beech me vertically */
+      padding: 20px 6vw;               /* andar ka gap */
+      background: #141414;             /* header ka kaala background */
+      z-index: 10;                     /* baaki cheezon ke upar rahe */
+    }
+
+    /* LOGO = brand ka naam (VÉLIN) */
+    .logo {
+      font-size: 22px;
+      font-weight: 800;      /* mota */
+      letter-spacing: 3px;   /* letters ke beech gap */
+      color: #fff;           /* safed */
+    }
+
+    /* nav a = menu ke links (Story, Shop, About) */
+    nav a {
+      position: relative;
+      margin-left: 28px;         /* links ke beech gap */
+      text-decoration: none;     /* underline hatao */
+      color: #fff;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase; /* sab capital letters */
+    }
+
+    /* ye link ke neeche ek choti line banata hai (shuru me chupi hui) */
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      height: 2px;
+      width: 0;                    /* pehle width zero (nazar nahi aati) */
+      background: #fff;
+      transition: width .2s ease;  /* nafees animation */
+    }
+
+    /* mouse le jane pe (hover) wo line poori khul jaati hai */
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* HERO = sab se upar bara title wala hissa */
+    .hero {
+      text-align: center;       /* text beech me */
+      padding: 12vh 6vw 8vh;    /* upar-neeche ka gap */
+    }
+
+    /* hero ka bara heading */
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 84px);  /* screen ke hisab se size (min 38, max 84) */
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    /* hero ke neeche choti line */
+    .hero p {
+      color: var(--muted);      /* halka grey */
+      margin: 22px 0 34px;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    /* BUTTON (Shop Collection wala) */
+    .btn {
+      display: inline-block;
+      padding: 15px 40px;        /* button ka size */
+      background: var(--ink);    /* kaala background */
+      color: #fff;               /* safed text */
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: transform .25s ease, opacity .25s;  /* smooth effect */
+    }
+
+    /* button pe mouse jane pe thora upar uthta hai */
+    .btn:hover {
+      transform: translateY(-3px);
+      opacity: .85;
+    }
+
+    /* har section ke heading (h2) ki styling */
+    section h2 {
+      text-align: center;
+      font-size: 30px;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+    }
+
+    /* STORY section = left photo, right text wali line */
+    .story {
+      display: flex;         /* photo aur text aik line me */
+      flex-wrap: wrap;       /* choti screen pe neeche chale jaye */
+      align-items: center;
+      gap: 40px;             /* dono ke beech gap */
+      padding: 8vh 6vw;
+    }
+
+    /* story ki photo ka size */
+    .story img {
+      flex: 1;
+      min-width: 280px;
+      height: 340px;
+      object-fit: cover;     /* photo bina khinche crop ho */
+      background: #e3e0da;    /* photo na ho to ye grey box dikhega */
+    }
+
+    /* story ka text wala box */
+    .story div {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    /* story ka paragraph text */
+    .story p {
+      color: var(--muted);
+      line-height: 1.8;      /* lines ke beech khula gap (parhne me asaan) */
+      font-size: 15px;
+    }
+
+    /* VIDEO section */
+    .video {
+      padding: 8vh 6vw;
+      text-align: center;
+    }
+
+    /* video ko beech me laata hai aur size deta hai */
+    .video iframe {
+      width: 100%;
+      max-width: 820px;      /* video kitni chaudi ho (ab wide/landscape) */
+      aspect-ratio: 16 / 9;  /* wide TV wala shape, height khud set ho jayegi */
+      height: auto;
+      border: 1px solid var(--line);
+    }
+
+    /* GRID = 3 product cards ko qatar me lagata hai */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);  /* har qatar me 3 cards */
+      gap: 26px;             /* cards ke beech gap */
+      padding: 0 6vw 12vh;
+    }
+
+    /* CARD = aik product ka box */
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      transition: transform .3s ease;
+    }
+
+    /* card pe mouse jane pe thora upar uthta hai */
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    /* card ke andar wali photo */
+    .card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      background: #e3e0da;   /* photo na ho to grey box */
+      display: block;
+    }
+
+    /* card ke neeche naam aur price wali line */
+    .card .meta {
+      display: flex;
+      justify-content: space-between;  /* naam left, price right */
+      padding: 18px 20px;
+    }
+
+    /* product ka naam */
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+
+    /* product ki price */
+    .card span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* FOOTER = sab se neeche wali kaali patti */
+    footer {
+      background: #141414;   /* footer ka kaala background */
+      color: #bdb9b1;
+      padding: 40px 6vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    /* footer ke andar wale links (email) */
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* TABLET: 2 cards per qatar */
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    /* MOBILE: 1 card per qatar */
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* MOBILE ke liye — jab screen 620px se choti ho to ye changes lagte hain */
+    @media (max-width: 620px) {
+      nav a {
+        margin-left: 16px;   /* links ka gap kam */
+        font-size: 12px;     /* text chota */
+      }
+      header {
+        padding: 16px 5vw;   /* header ka gap kam */
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+  <!-- BODY = jo kuch screen pe nazar aata hai wo sab yahan hota hai -->
+
+  <!-- ===== HEADER / NAVBAR — upar wali kaali patti ===== -->
+  <header>
+    <div class="logo">VÉLIN</div>   <!-- yahan apna brand name likho -->
+    <nav>
+      <!-- menu ke links. href="#story" click karne pe us section pe le jata hai.
+           Har link ka naam neeche kisi section ke id se bilkul match hona chahiye -->
+      <a href="#new">Home</a>
+      <a href="#story">Story</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+
+  <!-- ===== HERO — sab se upar bara title ===== -->
+  <section class="hero" id="new">
+    <!-- span id="word" wala lafz JS se ghoomta hai (Future, Season...) -->
+    <h1>Wear the <span id="word">Future</span></h1>
+    <p>Minimal essentials, engineered for everyday.</p>
+    <a href="#shop" class="btn">Shop Collection</a>   <!-- click pe Shop section pe jata hai -->
+  </section>
+
+
+  <!-- ===== OUR STORY — left photo, right brand ki kahani ===== -->
+  <section class="story" id="story">
+
+    <!-- IMAGE 1: yahan apni brand/story ki photo lagao (src me apna path likho) -->
+    <img src="Gemini_Generated_Image_jztfz2jztfz2jztf.jpg" alt="Our story">
+
+    <div>
+      <h1 style="text-align:left">Our Story</h1>
+      <!-- ye paragraph apni brand ki kahani se badal sakti ho -->
+      <p>
+        VÉLIN was born in Lahore with one idea clothing that stays simple,
+        honest, and built to last. Every piece is designed in-house and made
+        in small batches, so quality never gets lost in the rush of fast
+        fashion. We believe good style should feel effortless and last for
+        years, not seasons.
+      </p><br>
+      <p>The Art of Slow Fashion In a world of fast trends and fleeting styles,
+        VÉLIN  is a singular, timeless vision clothing
+        that stays simple, honest, and built to last.<br>
+
+        Every piece in our collection is a tribute to heritage craftsmanship,
+        meticulously handcrafted by skilled artisans who pour their heart, soul,
+         and centuries-old techniques into every stitch and weave. From intricately 
+         embroidered garments to delicately curated accessories,  our creations
+          celebrate the beauty of slow fashion.</p><br>
+
+        <p>We believe that true luxury lies in authenticity, personal touch, and
+          enduring quality ensuring that what you wear feels effortless today,
+           and remains a cherished favorite for years to come. </p>
+    </div>
+  </section>
+
+
+  <!-- ===== VIDEO — brand ki video (YouTube) ===== -->
+  <section class="video">
+    <h2>Behind the Brand</h2>
+
+    <!-- YOUTUBE VIDEO: sirf ek iframe. Apni video lagane ke liye
+         embed/ ke baad wali ID (ccXFqHeeMN4) apni video ki ID se badal do.
+         ?mute=1 = shuru se muted,  autoplay=1 = khud chalne lage (muted ho to hi chalti hai). -->
+    <iframe
+      src="https://www.youtube.com/embed/g2eHVFJZhKI?autoplay=1&mute=1"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </section>
+
+
+  <!-- ===== PRODUCTS — 3 product cards ===== -->
+  <section class="grid" id="shop">
+
+    <!-- CARD 1 -->
+    <div class="card">
+      <!-- IMAGE 2: product ki photo -->
+      <img src="Gemini_Generated_Image_e5hd59e5hd59e5hd.jpg" alt="Briadl Red">
+      <div class="meta">
+        <h3>Briadal Red</h3>   <!-- product ka naam -->
+        <span>$889</span>          <!-- product ki price -->
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <!-- IMAGE 3: product ki photo -->
+      <img src="Gemini_Generated_Image_e9egrie9egrie9eg.jpg" alt="White Fusion">
+      <div class="meta">
+        <h3>White Fusion</h3>
+        <span>$720</span>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <!-- IMAGE 4: product ki photo -->
+      <img src="Gemini_Generated_Image_7b23bv7b23bv7b23.jpg" alt="Handedlove">
+      <div class="meta">
+        <h3>Cotton Tee</h3>
+        <span>$45</span>
+      </div>
+    </div>
+
+    <!-- ===== NAYI QATAR 1 (card 4-6) ===== -->
+
+    <!-- CARD 4 -->
+    <div class="card">
+      <img src="Gemini_Generated_Image_1f1ar21f1ar21f1a.jpg" alt="Zard Artisan Kurta">
+      <div class="meta">
+        <h3>Zard Artisan Kurta</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="card">
+      <img src="velin-olive-shirt.jpg" alt="Zaitoon Linen Shirt">
+      <div class="meta">
+        <h3>Zaitoon Linen Shirt</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="card">
+      <img src="Gemini_Generated_Image_ougph5ougph5ougp.jpg" alt="Neelam Clutch Set">
+      <div class="meta">
+        <h3>Neelam Clutch Set</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+    <!-- ===== NAYI QATAR 2 (card 7-9) ===== -->
+
+    <!-- CARD 7 -->
+    <div class="card">
+      <img src="Gemini_Generated_Image_h2raueh2raueh2ra.jpg" alt="Emerald Velvet Khussa">
+      <div class="meta">
+        <h3>Emerald Velvet Khussa</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+    <!-- CARD 8 -->
+    <div class="card">
+      <img src="Gemini_Generated_Image_cs1lugcs1lugcs1l.jpg" alt="Maroon Velvet Khussa">
+      <div class="meta">
+        <h3>Maroon Velvet Khussa</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+    <!-- CARD 9 -->
+    <div class="card">
+      <img src="Gemini_Generated_Image_cmdjf8cmdjf8cmdj.jpg" alt="Emerald Khussa (Side)">
+      <div class="meta">
+        <h3>Emerald Khussa (Side)</h3>
+        <span>$0</span>   <!-- yahan apni price likho -->
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ===== FOOTER — sab se neeche address aur contact ===== -->
+  <footer id="about"><span id="contact"></span>
+    <div>© 2026 VÉLIN. All rights reserved.</div>
+    <div>
+      Lahore, PK ·
+      <a href="mailto:hello@velin.com">hello@velin.com</a> ·   <!-- click pe email khulta hai -->
+      +92 321 0014466
+    </div>
+  </footer>
+
+
+  <!-- ===== JAVASCRIPT — hero ka lafz badalne wala effect ===== -->
+  <script>
+    // ye list — hero me bari bari ye words dikhein ge
+    const words = ["Future", "Season", "Moment", "Edit"];
+    let i = 0;                                    // kaunsa word chal raha hai
+    const el = document.getElementById("word");   // hero ka <span id="word"> pakra
+
+    el.style.transition = "opacity .25s ease";    // fade wala smooth effect
+
+    // setInterval = ye andar wala kaam baar baar chalata hai
+    setInterval(() => {
+      i = (i + 1) % words.length;   // agle word pe jao (aakhri ke baad wapas pehle pe)
+      el.style.opacity = 0;         // purana word ghayab (fade out)
+      setTimeout(() => {
+        el.textContent = words[i];  // naya word laga do
+        el.style.opacity = 1;       // naya word zahir (fade in)
+      }, 250);
+    }, 2200);   // 2200 = har 2.2 second baad change
+  </script>
+
+</body>
+</html>
